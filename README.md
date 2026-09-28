@@ -16,7 +16,10 @@ Beeminder純正のGitHub連携は「1目標＝1リポジトリ」しか見られ
 python3 beeminder_commits.py            # 直近7日分を送る
 python3 beeminder_commits.py --dry-run  # 数えるだけ
 ```
-cronで毎時5分に実行。ログは `~/cron/logs/beeminder-commits.log`。
+launchd（LaunchAgent）で毎時5分に実行。ログは `~/cron/logs/beeminder-commits.log`。
+- cronだとキーチェーン（`gh auth token`）が読めず失敗したため launchd にしている
+- スリープ中に逃した実行は、復帰直後に1回だけまとめて走る。ログイン時にも1回走る（`RunAtLoad`）
+- 設定ファイル：`~/Library/LaunchAgents/com.chris9609.beeminder-commits.plist`（リポジトリには置いていない）
 
 ## 鍵
 - GitHub：`gh auth token`
